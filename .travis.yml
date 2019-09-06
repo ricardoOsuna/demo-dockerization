@@ -1,1 +1,11 @@
-language: node_js
+language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t rosuna/demo-dockerization -f Dockerfile.dev .
+
+script:
+  - docker run rosuna/demo-dockerization npm run test -- --coverage
+  - docker run -e CI=true rosuna/demo-dockerization npm run test
